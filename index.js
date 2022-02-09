@@ -17,11 +17,12 @@ function init() {
     .then(answers => {
         if (answers.default === 'View all departments') {
             viewAllDep();
-        } else if (answers.default === 1) {
+        } else if (answers.default === 'View all roles') {
             viewAllRole();
-        } else if (answers.default === 2) {
+        } else if (answers.default === 'View all employees') {
             viewAllEmp();
         }
+        init();
     });
 }
 
