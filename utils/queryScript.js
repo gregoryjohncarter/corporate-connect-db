@@ -17,7 +17,9 @@ function viewAllDep() {
 }
 
 function viewAllRole() {
-    const sql = `SELECT * FROM role`;
+    const sql = `SELECT role.id, role.title, role.salary, department.name AS department
+                 FROM role
+                 LEFT JOIN department ON role.department_id=department.id`;
   
     db.query(sql, (err, rows) => {
         if (err) {
@@ -32,8 +34,11 @@ function viewAllRole() {
 }
 
 function viewAllEmp() {
-    const sql = `SELECT * FROM employee`;
-  
+    const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, employee.manager_id
+                 FROM employee
+                 LEFT JOIN role ON employee.role_id=role.id
+                 LEFT JOIN department ON role.department_id=department.id`;
+                 
     db.query(sql, (err, rows) => {
         if (err) {
             throw err;
