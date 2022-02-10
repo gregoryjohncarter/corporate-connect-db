@@ -1,19 +1,19 @@
-const { viewAllDep, viewAllRole, viewAllEmp } = require('./utils/queryScript');
+const { viewAllDep, viewAllRole, viewAllEmp, addDepartment, addRole, addEmployee, updateEmployee } = require('./utils/queryScript');
 const db = require('./db/connection.js');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 
 function init() {
     return inquirer
-    .prompt([
-        {
-            type: 'list',
-            name: 'default',
-            message: 'What would you like to do?',
-            choices: ['View all departments', 'View all roles', 'View all employees'],
-            default: 0
-          }
-    ])
+           .prompt([
+                    {
+                        type: 'list',
+                        name: 'default',
+                        message: 'What would you like to do?',
+                        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee\'s role'],
+                        default: 0
+                    }
+                  ])
     .then(answers => {
         if (answers.default === 'View all departments') {
             viewAllDep();
@@ -21,13 +21,39 @@ function init() {
             viewAllRole();
         } else if (answers.default === 'View all employees') {
             viewAllEmp();
+        } else if (answers.default === 'Add a department') {
+            queryDepartment();
+        } else if (answers.default === 'Add a role') {
+            addRole();
+        } else if (answers.default === 'Add an employee') {
+            addEmployee();
+        } else if (answers.default ==='Update an employee\'s role') {
+            updateEmployee();
         }
-        init();
     });
 }
 
 init();
 
+function queryDepartment() {
+    return inquirer
+           .prompt([
+                    {
+                        type: 'input',
+                        name: 'depName',
+                        message: 'Name the department you would like to add.',
+                        validate: nameInput => {
+                          if (nameInput) {
+                            return true;
+                          } else {
+                            console.log('You need to enter a department name!');
+                            return false;
+                          }
+                        }
+                    }
+                  ])
+      .then(answers => { addDepartment(answers).then(init()) });
+}
 /*
       inquirer
     .prompt([
