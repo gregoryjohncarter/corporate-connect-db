@@ -12,6 +12,18 @@ function viewAllDep() {
         console.table(rows);
         console.log('');
         console.log('Press an arrow key to continue or CTRL+C to quit');
+        // having an issue where inquirer covers up part of 
+        // the return with next questions so this is a workaround
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
         }
     });
 }
@@ -29,6 +41,16 @@ function viewAllRole() {
         console.table(rows);
         console.log('');
         console.log('Press an arrow key to continue or CTRL+C to quit');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
         }
     });
 }
@@ -47,6 +69,16 @@ function viewAllEmp() {
         console.table(rows);
         console.log('');
         console.log('Press an arrow key to continue or CTRL+C to quit');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
         }
     });
 }
@@ -54,29 +86,104 @@ function viewAllEmp() {
 function addDepartment(data) {
     const sql = `INSERT INTO department (name)
                  VALUES (?)`;
-    const params = [data.depName];
+    const params = [toTitleCase(data.depName)];
 
     db.query(sql, params, (err, result) => {
         if (err) {
             throw err;
         } else {
             console.log('');
-            console.log('Department \'' + data.depName + '\' added to the database')
+            console.log('Department \'' + toTitleCase(data.depName) + '\' added to the database')
             console.log('Press an arrow key to continue or CTRL+C to quit');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
         }
     });
 }
 
-function addRole() {
+function addRole(data) {
+    const sql = `INSERT INTO role (title, salary, department_id)
+                 VALUES (?, ?, ?)`;
+    const params = [toTitleCase(data.title), data.salary, data.department_id];
 
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('');
+            console.log('Role \'' + toTitleCase(data.title) + '\' added to the database')
+            console.log('Press an arrow key to continue or CTRL+C to quit');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+        }
+    });
 }
 
-function addEmployee() {
+function addEmployee(data) {
+    const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                 VALUES (?, ?, ?)`;
+    const params = [toTitleCase(data.first_name), toTitleCase(data.last_name), data.role_id, data.manager_id];
 
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('');
+            console.log('Employee \'' + toTitleCase(data.last_name) + '\' added to the database')
+            console.log('Press an arrow key to continue or CTRL+C to quit');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+        }
+    });
 }
 
-function updateEmployee() {
-
+function updateEmployee(data) {
+    const sql = `UPDATE employee SET role_id = ? 
+                 WHERE id = ?`;
+    const params = [data.role_id, data.id];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('');
+            console.log('Employee \'' + (data.id) + '\' updated in the database')
+            console.log('Press an arrow key to continue or CTRL+C to quit');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+            console.log('');
+        }
+    });
 }
 
 // from stack overflow, for capitalizing/formatting entries in a unified way

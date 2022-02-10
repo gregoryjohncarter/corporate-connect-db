@@ -3,6 +3,7 @@ const db = require('./db/connection.js');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 
+// initial questions / index of prompt
 function init() {
     return inquirer
            .prompt([
@@ -17,18 +18,21 @@ function init() {
     .then(answers => {
         if (answers.default === 'View all departments') {
             viewAllDep();
+            init();
         } else if (answers.default === 'View all roles') {
             viewAllRole();
+            init();
         } else if (answers.default === 'View all employees') {
             viewAllEmp();
+            init();
         } else if (answers.default === 'Add a department') {
             queryDepartment();
         } else if (answers.default === 'Add a role') {
-            addRole();
+            queryRole();
         } else if (answers.default === 'Add an employee') {
-            addEmployee();
+            queryEmployee();
         } else if (answers.default ==='Update an employee\'s role') {
-            updateEmployee();
+            queryUpdate();
         }
     });
 }
@@ -52,133 +56,143 @@ function queryDepartment() {
                         }
                     }
                   ])
-      .then(answers => { addDepartment(answers).then(init()) });
-}
-/*
-      inquirer
-    .prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is the name of your project? (Required)',
-        validate: nameInput => {
-          if (nameInput) {
-            return true;
-          } else {
-            console.log('You need to enter a project name!');
-            return false;
-          }
-        }
-      },
-      
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Provide a description of the project (Required)',
-        validate: descriptionInput => {
-          if (descriptionInput) {
-            return true;
-          } else {
-            console.log('You need to enter a project description!');
-            return false;
-          }
-        }
-      },
-      {
-        type: 'input',
-        name: 'link',
-        message: 'Enter the GitHub link to your project. (Required)',
-        validate: linkInput => {
-          if (linkInput) {
-            return true;
-          } else {
-            console.log('You need to enter a project GitHub link!');
-            return false;
-          }
-        }
-      },
-      {
-        type: 'confirm',
-        name: 'feature',
-        message: 'Would you like to feature this project?',
-        default: false
-      },
-      {
-        type: 'confirm',
-        name: 'confirmAddProject',
-        message: 'Would you like to enter another project?',
-        default: false
-      }
-    ])
+             .then(answers => { addDepartment(answers)}).then(answers => {init()});
 }
 
-[
-    {
-        type: 'input',
-        name: 'engName',
-        message: 'Enter your engineer\'s name',
-        validate: engNameInput => {
-            if (engNameInput) {
-                return true;
-            } else {
-                console.log('Please enter a name!');
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'engId',
-        message: 'Enter your engineer\'s ID',
-        validate: engIdInput => {
-            if (engIdInput) {
-                return true;
-            } else {
-                console.log('Please enter an ID!');
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'engEmail',
-        message: 'Enter your engineer\'s email',
-        validate: engEmailInput => {
-            if (engEmailInput) {
-                return true;
-            } else {
-                console.log('Please enter an email!');
-                return false;
-            }
-        }
-    },
-    {
-        type: 'input',
-        name: 'engGitHub',
-        message: 'Enter your engineer\'s GitHub',
-        validate: engGitHubInput => {
-            if (engGitHubInput) {
-                return true;
-            } else {
-                console.log('Please enter a GitHub username');
-                return false;
-            }
-        }
-    },
-    {
-    type: 'confirm',
-    name: 'confirmAddEmployee',
-    message: 'Would you like to enter another employee?',
-    default: false
-    },
-    {
-        type: 'list',
-        name: 'employeePrompt2',
-        message: 'Would you like to add an engineer or an intern?',
-        when: ({ confirmAddEmployee }) => confirmAddEmployee,
-        choices: ['Engineer', 'Intern'],
-        default: 0
-      }
-];
+function queryRole() {
+    return inquirer
+           .prompt([
+                    {
+                        type: 'input',
+                        name: 'title',
+                        message: 'Name the role you would like to add.',
+                        validate: roleInput => {
+                          if (roleInput) {
+                            return true;
+                          } else {
+                            console.log('You need to enter a role name!');
+                            return false;
+                          }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'salary',
+                        message: 'Register a salary for this role.',
+                        validate: salaryInput => {
+                          if (typeof parseInt(salaryInput) === 'number') {
+                            return true;
+                          } else {
+                            console.log('You need to enter a valid salary');
+                            return false;
+                          }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'department_id',
+                        message: 'Input the department ID for this role.',
+                        validate: departmentInput => {
+                          if (typeof parseInt(departmentInput) === 'number') {
+                            return true;
+                          } else {
+                            console.log('You need to enter a number!');
+                            return false;
+                          }
+                        }
+                    }
+                  ])
+            .then(answers => { addRole(answers)}).then(() => {init()});
+}
 
-*/ 
+function queryEmployee() {
+    return inquirer
+           .prompt([
+                    {
+                        type: 'input',
+                        name: 'first_name',
+                        message: 'What is the employee\'s first name?',
+                        validate: fNameInput => {
+                          if (fNameInput) {
+                            return true;
+                          } else {
+                            console.log('Please enter a given name.');
+                            return false;
+                          }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'last_name',
+                        message: 'What is the employee\'s last name?',
+                        validate: lNameInput => {
+                          if (lNameInput) {
+                            return true;
+                          } else {
+                            console.log('Please enter a surname.');
+                            return false;
+                          }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'role_id',
+                        message: 'Input the role ID for this employee.',
+                        validate: roleInput => {
+                          if (typeof parseInt(roleInput) === 'number') {
+                            return true;
+                          } else {
+                            console.log('You need to enter a number!');
+                            return false;
+                          }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'manager_id',
+                        message: 'Input the manager ID for this employee.',
+                        validate: managerInput => {
+                          if (typeof parseInt(managerInput) === 'number') {
+                            return true;
+                          } else {
+                            console.log('You need to enter a number!');
+                            return false;
+                          }
+                        }
+                    }
+                  ])
+            .then(answers => { addEmployee(answers)}).then(() => {init()});
+}
+
+function queryUpdate() {
+  return inquirer
+         .prompt([
+                  {
+                      type: 'input',
+                      name: 'id',
+                      message: 'To update role, enter a specific employee ID.',
+                      validate: idInput => {
+                        if (typeof parseInt(idInput) === 'number') {
+                          return true;
+                        } else {
+                          console.log('You need to enter an ID number!');
+                          return false;
+                        }
+                      }
+                  },
+                  {
+                    type: 'input',
+                    name: 'role_id',
+                    message: 'Enter a new role ID for the employee.',
+                    validate: roleInput => {
+                      if (typeof parseInt(roleInput) === 'number') {
+                        return true;
+                      } else {
+                        console.log('You need to enter a role ID number!');
+                        return false;
+                      }
+                    }
+                }
+                ])
+           .then(answers => { updateEmployee(answers)}).then(() => {init()});
+}
