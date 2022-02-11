@@ -56,7 +56,7 @@ function queryDepartment() {
                         }
                     }
                   ])
-             .then(answers => { addDepartment(answers)}).then(answers => {init()});
+             .then(answers => { addDepartment(answers)}).then(() => {init()});
 }
 
 function queryRole() {
@@ -181,18 +181,18 @@ function queryUpdate() {
                       }
                   },
                   {
-                    type: 'input',
-                    name: 'role_id',
-                    message: 'Enter a new role ID for the employee.',
-                    validate: roleInput => {
-                      if (typeof parseInt(roleInput) === 'number') {
-                        return true;
-                      } else {
-                        console.log('You need to enter a role ID number!');
-                        return false;
+                      type: 'input',
+                      name: 'role_id',
+                      message: 'Enter a new role ID for the employee.',
+                      validate: roleInput => {
+                        if (typeof parseInt(roleInput) === 'number') {
+                          return true;
+                        } else {
+                          console.log('You need to enter a role ID number!');
+                          return false;
+                        }
                       }
-                    }
-                }
+                  }
                 ])
            .then(answers => { updateEmployee(answers)}).then(() => {init()});
 }

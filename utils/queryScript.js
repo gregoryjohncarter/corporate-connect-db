@@ -137,7 +137,7 @@ function addRole(data) {
 
 function addEmployee(data) {
     const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-                 VALUES (?, ?, ?)`;
+                 VALUES (?, ?, ?, ?)`;
     const params = [toTitleCase(data.first_name), toTitleCase(data.last_name), data.role_id, data.manager_id];
 
     db.query(sql, params, (err, result) => {
@@ -165,6 +165,7 @@ function updateEmployee(data) {
     const sql = `UPDATE employee SET role_id = ? 
                  WHERE id = ?`;
     const params = [data.role_id, data.id];
+    
     db.query(sql, params, (err, result) => {
         if (err) {
             throw err;

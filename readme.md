@@ -8,3 +8,6 @@ Run 'node index.js' in the command prompt while navigated to the root directory 
 
 ## Technologies used
 MySQL, Node.js, JavaScript, Inquirer npm
+
+## Demonstration video
+<a href='https://drive.google.com/file/d/1U1Com9sLAU702WX3Z2SPytrdUMAbTYDG/view?usp=sharing'>Link</a>
